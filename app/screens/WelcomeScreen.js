@@ -9,29 +9,46 @@ import {
   Alert,
 } from "react-native";
 
+import { StatusBar } from "expo-status-bar";
+
 function WelcomeScreen({ navigation }) {
   return (
     <ImageBackground
-      source={require("../assets/background.png")}
+      source={require("../assets/background.jpg")}
       style={styles.background}
     >
       <View style={styles.logoContainer}>
+        <Text style={{ fontSize: 20, padding: 10 }}>
+          Welcome to Resume Builder!{" "}
+        </Text>
         <Image source={require("../assets/velocity.jpg")} style={styles.logo} />
-        <Text>Welcome to Resume Builder! </Text>
       </View>
 
       {/* Buttons */}
+      <View style={styles.guestButton}>
+        <Button
+          title="Continue as Guest"
+          //resets navigfation to personalInfo section
+          onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "PersonalInfo" }],
+            });
+          }}
+          //style={{}}
+        />
+      </View>
       <View style={styles.loginButton}>
         <Button
           title="Login"
-          onPress={() => NavigationPreloadManager.navigate("Login")}
+          onPress={() => navigation.navigate("Login", { type: "login" })}
           //style={{}}
         />
       </View>
       <View style={styles.registerButton}>
         <Button
           title="Register"
-          onPress={() => NavigationPreloadManager.navigate("Login")}
+          onPress={() => navigation.navigate("Login", { type: "register" })}
           //style={{}}
         />
       </View>
@@ -53,6 +70,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 70,
     backgroundColor: "tomato",
+  },
+  guestButton: {
+    width: "100%",
+    height: 70,
+    backgroundColor: "#D3D3D3",
   },
   logo: {
     width: 190,

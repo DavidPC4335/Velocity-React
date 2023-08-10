@@ -1,45 +1,82 @@
-import React from "react";
-import { ImageBackground, StyleSheet, View, Image, Text } from "react-native";
+import { StackActions } from "@react-navigation/native";
+import React, { useState } from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TextInput,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 
-function WelcomeScreen(props) {
+function LoginScreen({ navigation, route }) {
+  let loginType = route.params.type;
+  let msg = loginType === "login" ? "Welcome Back!" : "Welcome new user!";
+
+  const [username, setUsername] = useState("empty");
+  const [password, setPassword] = useState("empty");
+
   return (
-    <ImageBackground
-      source={require("../assets/background.png")}
-      style={styles.background}
-    >
-      <View style={styles.logoContainer}>
-        <Image source={require("../assets/velocity.jpg")} style={styles.logo} />
-        <Text>Welcome to Resume Builder! </Text>
-      </View>
-      <View style={styles.loginButton} />
-      <View style={styles.registerButton} />
-    </ImageBackground>
+    <View style={styles.background}>
+      <Text padding={50} style={styles.titleText}>
+        {msg} {"\n"} username : {username + "\n"} Password : {password}
+      </Text>
+      <Text style={styles.subtitleText}>Username:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Userame:"
+        onChangeText={(txt) => setUsername(txt)}
+      />
+      <Text style={styles.subtitleText}>Password:</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Password:"
+        secureTextEntry={true}
+        onChangeText={(txt) => setPassword(txt)}
+      />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "PersonalInfo" }],
+          });
+        }}
+      >
+        <Text>Enter</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
+
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    justifyContent: "flex-end",
     alignItems: "center",
+    backgroundColor: "#baa975",
   },
-  loginButton: {
-    width: "100%",
-    height: 70,
-    backgroundColor: "yellow",
+  input: {
+    borderWidth: 1,
+    borderColor: "black",
+    padding: 10,
+    margin: 10,
+    width: 250,
   },
-  registerButton: {
-    width: "100%",
-    height: 70,
-    backgroundColor: "tomato",
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
-  logo: {
-    width: 190,
-    height: 100,
+  subtitleText: {
+    fontSize: 15,
+    fontWeight: "bold",
   },
-  logoContainer: {
-    top: 70,
-    position: "absolute",
+  button: {
+    backgroundColor: "gray",
     alignItems: "center",
+    padding: 10,
+    width: 100,
   },
 });
-export default WelcomeScreen;
+export default LoginScreen;
